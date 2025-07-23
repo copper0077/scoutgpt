@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Constants
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-SHEET_ID = 'wf1_0nORkXoUISggq1dnY5Bnuj9mvwrH9ouiChxwXfU'
+SHEET_ID = '1wf1_0nORkXoUISggq1dnY5Bnuj9mvwrH9ouiChxwXfU'
 
 # Load service account credentials from environment variable
 SERVICE_ACCOUNT_INFO = os.environ.get('SERVICE_ACCOUNT_JSON')
