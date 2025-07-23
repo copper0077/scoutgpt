@@ -41,8 +41,8 @@ def read():
         ).execute()
         values = result.get('values', [])
     except Exception as e:
-        logging.error(f"❌ Sheets API error (read): {e}")
-        return jsonify({"error": "Failed to read sheet"}), 500
+    logging.error("❌ Sheets API error: %s", str(e))
+    return jsonify({"error": f"Failed to read sheet: {str(e)}"}), 500
 
     if not values:
         return jsonify({"headers": [], "rows": []})
