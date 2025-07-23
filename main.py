@@ -57,13 +57,12 @@ def read():
 def write():
     data = request.get_json()
     tab = data.get('tab')
-    row_data = data.get('row')
+    row_data = data.get('row') or data.get('data')  # ✅ Accept either format
 
     if not tab or not row_data:
-        return jsonify({"error": "Missing 'tab' or 'row' in request body"}), 400
+        return jsonify({"error": "Missing 'tab' or 'row/data' in request body"}), 400
 
     try:
-        # Ensure headers match order
         service = build('sheets', 'v4', credentials=credentials)
         sheet = service.spreadsheets()
 
@@ -74,7 +73,7 @@ def write():
         ).execute()
         headers = header_result.get('values', [[]])[0]
 
-        # Create a row aligned to the headers
+        # Create a new row matching header order
         new_row = [row_data.get(h, "") for h in headers]
 
         # Append the row
