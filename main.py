@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SHEET_ID = 'wf1_0nORkXoUISggq1dnY5Bnuj9mvwrH9ouiChxwXfU'
-SERVICE_ACCOUNT_FILE = 'Service_Account_Secret/secrets/service-account.json'  # ✅ FIXED path
+SERVICE_ACCOUNT_FILE = '/secrets/service-account.json'  # ✅ FIXED path
 
 try:
     credentials = service_account.Credentials.from_service_account_file(
