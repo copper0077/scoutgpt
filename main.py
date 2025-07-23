@@ -58,10 +58,20 @@ def write():
     data = request.get_json()
     tab = data.get('tab')
     raw = data.get('row') or data.get('data')
-    row_data = raw[0] if isinstance(raw, list) else raw  # ✅ handles both list and dict
 
-    if not tab or not row_data:
-        return jsonify({"error": "Missing 'tab' or 'row/data' in request body"}), 400
+    # ✅ Validate raw type to avoid GPT-related input errors
+    if isinstance(raw, list):
+        row_data = raw[0]
+    elif isinstance(raw, dict):
+        row_data = raw
+    else:
+        return jsonify({"error": "'row' must be an object or list of objects"}), 400
+
+    # ✅ Validate required structure
+    if not tab or not isinstance(row_data, dict):
+        return jsonify({"error": "Missing or invalid 'tab' or 'row'"}), 400
+
+    logging.info(f"📥 Incoming write payload: tab={tab}, row={row_data}")
 
     try:
         service = build('sheets', 'v4', credentials=credentials)
@@ -98,3 +108,4 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     logging.info(f"🚀 Flask app running on port {port}")
     app.run(host='0.0.0.0', port=port)
+    
