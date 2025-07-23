@@ -57,7 +57,8 @@ def read():
 def write():
     data = request.get_json()
     tab = data.get('tab')
-    row_data = data.get('row') or data.get('data')  # ✅ Accept either format
+    raw = data.get('row') or data.get('data')
+    row_data = raw[0] if isinstance(raw, list) else raw  # ✅ handles both list and dict
 
     if not tab or not row_data:
         return jsonify({"error": "Missing 'tab' or 'row/data' in request body"}), 400
